@@ -7,6 +7,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
 import Admins from "./pages/admin/Admins";
 import Login from "../src/pages/Login";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
+      <Toaster />
     </>
   );
 };

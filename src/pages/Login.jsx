@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -7,17 +8,26 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
     const { email, password } = data;
-    let Semail = "admin@admin.com";
-    let Spassword = "admin";
+    const Semail = "admin@admin.com";
+    const Spassword = "sahayatri";
+    
     if (email === Semail && password === Spassword) {
       console.log("Admin Logged in!");
-      navigate("/dashboard");
+      toast.success("Admin Logged in!");
+
+      // Storing the login status and user data in localStorage
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userRole", "admin");
+
+      navigate("/");
+    } else {
+      console.log("Login failed!");
+      toast.error("Login failed!");
     }
   };
 
