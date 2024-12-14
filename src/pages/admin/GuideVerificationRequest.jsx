@@ -35,18 +35,13 @@ const GuideVerificationRequest = () => {
         const usersData = querySnapshot.docs
           .map((doc) => {
             const data = doc.data();
-            console.log("User Data Before Filtering:", data); // Log data for debugging
             return {
               id: doc.id,
               ...data,
             };
           })
-          .filter((user) => {
-            console.log("Filtering user:", user); // Log each user object before filtering
-            return user.user === "user" && user.yearOfExp; // Filter users with "user" role and yearsOfExp
-          });
+          .filter((user) => user.user === "user" && user.yearOfExp);
 
-        console.log("Fetched and Filtered Users Data:", usersData); // Log filtered users
         setUsers(usersData);
       } catch (error) {
         console.error("Error fetching users: ", error);
@@ -59,9 +54,8 @@ const GuideVerificationRequest = () => {
   const grantGuideRole = async (userId) => {
     try {
       const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { user: "guide" }); // Update role to "guide"
+      await updateDoc(userDocRef, { user: "guide" });
 
-      // Update local state to reflect the change
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       alert("User role updated to guide!");
     } catch (error) {
@@ -83,66 +77,58 @@ const GuideVerificationRequest = () => {
 
   return (
     <section className="p-6 bg-white shadow-lg rounded-lg w-full">
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
         Guide Verification Requests
       </h2>
-      <table className="min-w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              #
-            </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              Name
-            </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              Documents
-            </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              Email
-            </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              Role
-            </th>
-            <th className="px-4 py-2 text-left font-semibold text-gray-600">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="6" className="text-center py-4">
-                No users found
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border-collapse bg-gray-50 rounded-lg shadow-md">
+          <thead>
+            <tr className="bg-gray-300 text-white">
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">#</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">Name</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">Documents</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">Email</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">Role</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">Actions</th>
             </tr>
-          ) : (
-            users.map((user, index) => (
-              <tr key={user.id} className="border-b">
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="px-4 py-2">{user.username}</td>
-                <td className="px-4 py-2">Document Link</td>
-                <td className="px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">{user.user}</td>
-                <td className="px-4 py-2">
-                  <button
-                    className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-                    onClick={() => grantGuideRole(user.id)}
-                  >
-                    Grant
-                  </button>
-                  <button
-                    className="bg-yellow-800 text-white px-4 py-2 rounded"
-                    onClick={() => holdGuideRole(user.id)}
-                  >
-                    Hold
-                  </button>
+          </thead>
+          <tbody>
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center py-4 text-gray-500">
+                  No users found
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              users.map((user, index) => (
+                <tr key={user.id} className="border-b hover:bg-gray-100">
+                  <td className="px-6 py-4">{index + 1}</td>
+                  <td className="px-6 py-4 text-gray-700">{user.username}</td>
+                  <td className="px-6 py-4 text-blue-500 cursor-pointer">
+                    Document Link
+                  </td>
+                  <td className="px-6 py-4 text-gray-700">{user.email}</td>
+                  <td className="px-6 py-4 text-gray-700">{user.user}</td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 mr-2"
+                      onClick={() => grantGuideRole(user.id)}
+                    >
+                      Grant
+                    </button>
+                    <button
+                      className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      onClick={() => holdGuideRole(user.id)}
+                    >
+                      Hold
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 };
