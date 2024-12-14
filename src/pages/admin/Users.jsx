@@ -45,13 +45,15 @@ const UsersComponent = () => {
   }, []);
 
   const handleDelete = async (userId) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await deleteDoc(userDocRef);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      alert("User deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting user: ", error);
+    if (window.confirm("Do you really want to delete this user?")) {
+      try {
+        const userDocRef = doc(db, "users", userId);
+        await deleteDoc(userDocRef);
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        alert("User deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting user: ", error);
+      }
     }
   };
 
@@ -60,11 +62,11 @@ const UsersComponent = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-full mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold text-center mb-6">User List</h1>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-200 shadow-md">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-200 text-gray-800">
             <tr>
               <th className="border border-gray-300 px-4 py-2 text-left">
                 Name
@@ -78,7 +80,7 @@ const UsersComponent = () => {
               <th className="border border-gray-300 px-4 py-2 text-center">
                 Actions
               </th>
-            </tr> 
+            </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
@@ -89,13 +91,13 @@ const UsersComponent = () => {
                 }
               >
                 <td className="border border-gray-300 px-4 py-2">
-                  {user.name || "N/A"}
+                  {user.username || "N/A"}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {user.email || "N/A"}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {user.role || "N/A"}
+                  {user.user || "N/A"}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-center">
                   <button
