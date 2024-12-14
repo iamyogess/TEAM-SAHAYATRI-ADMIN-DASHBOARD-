@@ -2,6 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi"; // Import logout icon from react-icons
 import toast from "react-hot-toast";
+import { FaUserClock, FaUsers } from "react-icons/fa";
+import { RiAdminFill } from "react-icons/ri";
+import { MdVerified } from "react-icons/md";
 
 // Logout function
 export const Logout = () => {
@@ -23,7 +26,8 @@ const Sidebar = () => {
       <nav>
         <ul className="space-y-4 px-4">
           {/* Guide Verification Request */}
-          <li>
+          <li className="flex  items-center ">
+            <FaUserClock className="h-6 w-auto" />
             <NavLink
               to="/guide-verification-request"
               className={({ isActive }) =>
@@ -37,7 +41,8 @@ const Sidebar = () => {
           </li>
 
           {/* Verified Guides */}
-          <li>
+          <li className="flex  items-center ">
+            <MdVerified className="h-6 w-auto" />
             <NavLink
               to="/verified-guides"
               className={({ isActive }) =>
@@ -51,7 +56,8 @@ const Sidebar = () => {
           </li>
 
           {/* Users */}
-          <li>
+          <li className="flex  items-center ">
+            <FaUsers className="h-6 w-auto" />
             <NavLink
               to="/users"
               className={({ isActive }) =>
@@ -65,7 +71,8 @@ const Sidebar = () => {
           </li>
 
           {/* Assigned Admins */}
-          <li>
+          <li className="flex  items-center ">
+            <RiAdminFill className="h-6 w-auto" />
             <NavLink
               to="/admins"
               className={({ isActive }) =>
@@ -84,7 +91,7 @@ const Sidebar = () => {
               onClick={Logout} // Call Logout function on click
               className="flex items-center justify-start hover:bg-gray-700  py-2 px-3 rounded text-white w-full mt-6"
             >
-              <FiLogOut className="mr-3" /> {/* Log Out Icon */}
+              <FiLogOut className="h-6 w-auto mr-5" /> {/* Log Out Icon */}
               Logout
             </button>
           </li>
