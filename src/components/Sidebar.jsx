@@ -1,5 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi"; // Import logout icon from react-icons
+import toast from "react-hot-toast";
+
+// Logout function
+export const Logout = () => {
+  if (window.confirm("Do you really want to logout?")) {
+    localStorage.removeItem("isLoggedIn");
+    toast.success("Logged out!");
+    window.location.href = "/login"; // Redirect to login page after logout
+  }
+};
 
 const Sidebar = () => {
   return (
@@ -11,6 +22,7 @@ const Sidebar = () => {
       </div>
       <nav>
         <ul className="space-y-4 px-4">
+          {/* Guide Verification Request */}
           <li>
             <NavLink
               to="/guide-verification-request"
@@ -23,6 +35,8 @@ const Sidebar = () => {
               Guide Verification Request
             </NavLink>
           </li>
+
+          {/* Verified Guides */}
           <li>
             <NavLink
               to="/verified-guides"
@@ -35,6 +49,8 @@ const Sidebar = () => {
               Verified Guides
             </NavLink>
           </li>
+
+          {/* Users */}
           <li>
             <NavLink
               to="/users"
@@ -47,6 +63,8 @@ const Sidebar = () => {
               Users
             </NavLink>
           </li>
+
+          {/* Assigned Admins */}
           <li>
             <NavLink
               to="/admins"
@@ -58,6 +76,17 @@ const Sidebar = () => {
             >
               Assigned Admins
             </NavLink>
+          </li>
+
+          {/* Logout Button (At the bottom) */}
+          <li>
+            <button
+              onClick={Logout} // Call Logout function on click
+              className="flex items-center justify-start hover:bg-gray-700  py-2 px-3 rounded text-white w-full mt-6"
+            >
+              <FiLogOut className="mr-3" /> {/* Log Out Icon */}
+              Logout
+            </button>
           </li>
         </ul>
       </nav>

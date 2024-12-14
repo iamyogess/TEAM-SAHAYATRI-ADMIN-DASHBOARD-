@@ -64,14 +64,16 @@ const GuideVerificationRequest = () => {
   };
 
   const holdGuideRole = async (userId) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { user: "onHold" });
+    if (window.confirm("Do you really want to put this user on hold?")) {
+      try {
+        const userDocRef = doc(db, "users", userId);
+        await updateDoc(userDocRef, { user: "onHold" });
 
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      alert("User role on hold!");
-    } catch (error) {
-      console.error("Error updating user role: ", error);
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        alert("User role on hold!");
+      } catch (error) {
+        console.error("Error updating user role: ", error);
+      }
     }
   };
 
@@ -84,12 +86,24 @@ const GuideVerificationRequest = () => {
         <table className="min-w-full table-auto border-collapse bg-gray-50 rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-300 text-white">
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">#</th>
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">Name</th>
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">Documents</th>
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">Email</th>
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">Role</th>
-              <th className="px-6 py-3 text-gray-800 text-left font-medium">Actions</th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                #
+              </th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                Name
+              </th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                Documents
+              </th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                Email
+              </th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                Role
+              </th>
+              <th className="px-6 py-3 text-gray-800 text-left font-medium">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>

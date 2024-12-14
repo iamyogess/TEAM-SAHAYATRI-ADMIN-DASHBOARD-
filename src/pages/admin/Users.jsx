@@ -45,13 +45,15 @@ const UsersComponent = () => {
   }, []);
 
   const handleDelete = async (userId) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await deleteDoc(userDocRef);
-      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      alert("User deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting user: ", error);
+    if (window.confirm("Do you really want to delete this user?")) {
+      try {
+        const userDocRef = doc(db, "users", userId);
+        await deleteDoc(userDocRef);
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        alert("User deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting user: ", error);
+      }
     }
   };
 
@@ -66,10 +68,18 @@ const UsersComponent = () => {
         <table className="table-auto w-full border-collapse border border-gray-200 shadow-md">
           <thead className="bg-gray-200 text-gray-800">
             <tr>
-              <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
-              <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
-              <th className="border border-gray-300 px-4 py-2 text-left">Role</th>
-              <th className="border border-gray-300 px-4 py-2 text-center">Actions</th>
+              <th className="border border-gray-300 px-4 py-2 text-left">
+                Name
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left">
+                Email
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left">
+                Role
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-center">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
