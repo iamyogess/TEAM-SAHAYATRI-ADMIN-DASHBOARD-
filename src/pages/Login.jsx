@@ -15,7 +15,7 @@ const Register = () => {
     const { email, password } = data;
     const Semail = "admin@admin.com";
     const Spassword = "sahayatri";
-    
+
     if (email === Semail && password === Spassword) {
       console.log("Admin Logged in!");
       toast.success("Admin Logged in!");
@@ -30,6 +30,12 @@ const Register = () => {
       toast.error("Login failed!");
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("isLoggedIn")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <section className="h-screen w-full flex justify-center items-center bg-gray-200 px-2">
