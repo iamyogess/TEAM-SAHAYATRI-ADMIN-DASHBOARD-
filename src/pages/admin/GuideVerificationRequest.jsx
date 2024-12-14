@@ -69,18 +69,17 @@ const GuideVerificationRequest = () => {
     }
   };
 
-  const revokeGuideRole = async (userId) => {
+  const holdGuideRole = async (userId) => {
     try {
       const userDocRef = doc(db, "users", userId);
-      await updateDoc(userDocRef, { role: "rejected" }); 
-  
+      await updateDoc(userDocRef, { user: "onHold" });
+
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      alert("User role updated to rejected!");
+      alert("User role on hold!");
     } catch (error) {
       console.error("Error updating user role: ", error);
     }
   };
-  
 
   return (
     <section className="p-6 bg-white shadow-lg rounded-lg w-full">
@@ -133,10 +132,10 @@ const GuideVerificationRequest = () => {
                     Grant
                   </button>
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    onClick={() => revokeGuideRole(user.id)}
+                    className="bg-yellow-800 text-white px-4 py-2 rounded"
+                    onClick={() => holdGuideRole(user.id)}
                   >
-                    Reject
+                    Hold
                   </button>
                 </td>
               </tr>
